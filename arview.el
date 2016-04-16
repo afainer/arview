@@ -1,9 +1,9 @@
 ;;; arview.el --- extract and view archives in the temporary directory
 
-;; Copyright (C) 2013  Andrey Fainer
+;; Copyright (C) 2013-2016  Andrey Fainer
 
 ;; Author: Andrey Fainer <fandrey@gmx.com>
-;; Version: 1.0
+;; Version: 1.1
 ;; Keywords: files
 ;; URL: http://www.emacswiki.org/emacs/arview.el
 ;; Compatibility: Emacs24, Emacs23
@@ -77,7 +77,8 @@ name."
     (mapc #'(lambda (type)
               (when (executable-find (cadr type))
                 (push type types)))
-          '((zip "unzip")
+          '((tar "tar" "-xf")
+            (zip "unzip")
             (7z "7z" "x")
             (rar "unrar" "x")))
     types)
@@ -93,7 +94,8 @@ ARGUMENTS - command-line arguments to the program."
   :group 'arview)
 
 (defcustom arview-file-alist
-  '((zip . ".*: Zip archive data")
+  '((tar . ".*: .* tar archive")
+    (zip . ".*: Zip archive data")
     (7z  . ".*: 7-zip archive data")
     (rar . ".*: RAR archive data"))
   "Alist of archive type for the function `arview-file-archive'.
@@ -127,7 +129,12 @@ See `arview-file-alist'."
 
 (defun arview-file-extension (filename)
   "Determine the type of FILENAME by its extension."
-  (intern (downcase (file-name-extension filename))))
+  (let ((ext (downcase (file-name-extension filename))))
+    (if (or (string= ext "tar")
+            (string= ext "tgz")
+            (string-match-p "\.tar\.[bgx]z2?$" filename))
+        'tar
+      (intern ext))))
 
 (defun arview-copy-remote-file (filename)
   "Copy FILENAME from a remote host to the temp directory.
