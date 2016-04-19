@@ -22,6 +22,10 @@
   
   Use the command ~arview~ which asks for an archive file name.  In
   ~dired-mode~ use ~arview-dired~ (bound to C-return by default).
+  When the commands called with one prefix argument, arview prompts
+  you for another temporary directory instead of the default one.
+  With two prefix arguments you can also specify additional arguments
+  for the archive program.
   
   To use arview, make sure that this file is in load-path and insert
   in your .emacs:
