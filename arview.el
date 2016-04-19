@@ -5,7 +5,7 @@
 ;; Author: Andrey Fainer <fandrey@gmx.com>
 ;; Version: 1.2
 ;; Keywords: files
-;; URL: http://www.emacswiki.org/emacs/arview.el
+;; URL: https://github.com/afainer/arview
 ;; Compatibility: Emacs24, Emacs23
 
 ;; This program is free software; you can redistribute it and/or modify
